@@ -2,15 +2,7 @@ import { Flair, SubredditAbout } from './redditAPIModel';
 
 import { Required } from '@tsed/schema';
 
-export class AddSubredditPayload {
-    @Required()
-    subredditName: string;
-
-    @Required()
-    categoryName: string;
-}
-
-export class DeleteSubredditPayload {
+export class SubredditDetails {
     @Required()
     subredditName: string;
 

@@ -1,6 +1,6 @@
 import * as jsonfile from 'jsonfile';
 
-import { AddSubredditPayload, DeleteSubredditPayload, SubredditCategory, SubredditInfo } from '../models/subredditListModel';
+import { SubredditCategory, SubredditDetails, SubredditInfo } from '../models/subredditListModel';
 
 import { Injectable } from '@tsed/di';
 import { RedditAPIService } from './redditAPIService';
@@ -20,7 +20,7 @@ export class SubredditListService {
         }
     }
 
-    async addSubreddit(payload: AddSubredditPayload): Promise<void> {
+    async addSubreddit(payload: SubredditDetails): Promise<void> {
 
         const subredditList = await this.getSubredditList();
         const objIndex = subredditList.findIndex(category => category.categoryName === payload.categoryName);
@@ -52,12 +52,19 @@ export class SubredditListService {
         this.writeToFile(subredditList);
     }
 
-    async deleteSubreddit(payload: DeleteSubredditPayload): Promise<void> {
+    async deleteSubreddit(payload: SubredditDetails[]): Promise<void> {
         const subredditList = await this.getSubredditList();
-        const objIndex = subredditList.findIndex(category => category.categoryName === payload.categoryName);
-        subredditList[objIndex].subreddits = subredditList[objIndex].subreddits.filter((subreddit) => {
-            return subreddit.name !== payload.subredditName;
+        payload.forEach(subredditToDelete => {
+
+            // get the category index of the subreddit to delete
+            const objIndex = subredditList.findIndex(category => category.categoryName === subredditToDelete.categoryName);
+
+            // use the category index to filter out the selected subreddit from that catreogry
+            subredditList[objIndex].subreddits = subredditList[objIndex].subreddits.filter((subreddit) => {
+                return subreddit.name !== subredditToDelete.subredditName;
+            });
         });
+        // filter out any catergories with no subreddits and write to state file with updated list
         this.writeToFile(subredditList.filter(category => category.subreddits.length));
     }
 
