@@ -25,7 +25,7 @@ export class RedditAPIService {
     async getSubbredditAbout(subredditName: string): Promise<SubredditAbout> {
         const aboutData = (await this.reddit.get(`/r/${subredditName}/about.json`))?.data as SubredditAboutRaw;
         return {
-            name: aboutData.display_name,
+            subredditName: aboutData.display_name,
             url: aboutData.url,
             allowsVideoGifs: aboutData.allow_videogifs,
             allowsVideos: aboutData.allow_videos,

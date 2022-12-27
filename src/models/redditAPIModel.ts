@@ -1,5 +1,7 @@
 /** 
- * Regular types are converted Raw types which better suit the purpose of this application
+ * Regular types
+ * 
+ * Converted Raw types which better suit the purpose of this application
  */
 export interface Flair {
     name: string;
@@ -8,7 +10,7 @@ export interface Flair {
 }
 
 export interface SubredditAbout {
-    name: string;
+    subredditName: string;
     url: string;
     allowsVideoGifs: boolean;
     allowsVideos: boolean;
@@ -17,7 +19,9 @@ export interface SubredditAbout {
 }
 
 /**
- *  Raw types are data types for the raw data recieved from Reddit API.
+ *  Raw types
+ * 
+ *  Types for the raw data recieved from Reddit API.
  *  Used exclusively for assigning a type to Reddit API responses. 
  */
 export interface SubredditAboutRaw {

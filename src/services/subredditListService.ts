@@ -25,7 +25,7 @@ export class SubredditListService {
         const subredditList = await this.getSubredditList();
         const objIndex = subredditList.findIndex(category => category.categoryName === payload.categoryName);
 
-        if (objIndex >= 0 && subredditList[objIndex].subreddits.find(subreddit => subreddit.name.toLocaleLowerCase() === payload.subredditName.toLocaleLowerCase())) {
+        if (objIndex >= 0 && subredditList[objIndex].subreddits.find(subreddit => subreddit.subredditName.toLocaleLowerCase() === payload.subredditName.toLocaleLowerCase())) {
             return;
         }
 
@@ -61,7 +61,7 @@ export class SubredditListService {
 
             // use the category index to filter out the selected subreddit from that catreogry
             subredditList[objIndex].subreddits = subredditList[objIndex].subreddits.filter((subreddit) => {
-                return subreddit.name !== subredditToDelete.subredditName;
+                return subreddit.subredditName !== subredditToDelete.subredditName;
             });
         });
         // filter out any catergories with no subreddits and write to state file with updated list
