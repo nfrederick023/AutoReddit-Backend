@@ -1,21 +1,14 @@
-import { Flair, SubredditAbout } from './redditAPIModel';
-
 import { Required } from '@tsed/schema';
 
-export class SubredditDetails {
+export class AddSubredditPayload {
     @Required()
-    subredditName: string;
+    public readonly subredditName!: string;
 
     @Required()
-    categoryName: string;
+    public readonly categoryName!: string;
 }
 
-export interface SubredditInfo extends SubredditAbout {
-    flairs: Flair[];
-    notes: string[];
-}
-
-export interface SubredditCategory {
-    categoryName: string;
-    subreddits: SubredditInfo[];
+export class DeleteSubredditPayload {
+    @Required()
+    public readonly subredditNames!: string[];
 }

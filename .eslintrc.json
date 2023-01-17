@@ -3,6 +3,10 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": [
+            "./tsconfig.json"
+        ],
         "sourceType": "module"
     },
     "env": {
@@ -14,7 +18,8 @@
         "sort-imports-es6-autofix"
     ],
     "extends": [
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
         "eqeqeq": "error",
