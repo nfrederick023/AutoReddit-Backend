@@ -1,11 +1,10 @@
 import '@tsed/swagger';
 
-import * as cors from 'cors';
-
 import { Configuration, Inject } from '@tsed/di';
 
 import { PlatformApplication } from '@tsed/common';
 import { SubredditListCtrl } from './controllers/subredditListCtrl';
+import cors from 'cors';
 
 @Configuration({
     acceptMimes: ['application/json'],
@@ -22,7 +21,7 @@ import { SubredditListCtrl } from './controllers/subredditListCtrl';
 
 export class Server {
     @Inject()
-    protected app: PlatformApplication;
+    protected app!: PlatformApplication;
 
     $beforeRoutesInit(): void {
         this.app.use(cors()); // fixes CORS error

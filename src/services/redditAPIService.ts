@@ -1,16 +1,17 @@
-import * as Reddit from 'reddit';
-
 import { SubredditAbout, SubredditFlair } from '../utils/types';
 
 import { Injectable } from '@tsed/di';
+import Reddit from 'reddit';
 
 interface SubredditAboutRaw {
-    readonly display_name: string;
-    readonly allow_videogifs: boolean;
-    readonly allow_videos: boolean;
-    readonly is_crosspostable_subreddit: boolean;
-    readonly over18: boolean;
-    readonly url: string;
+    readonly data: {
+        readonly display_name: string;
+        readonly allow_videogifs: boolean;
+        readonly allow_videos: boolean;
+        readonly is_crosspostable_subreddit: boolean;
+        readonly over18: boolean;
+        readonly url: string;
+    }
 }
 
 interface SubredditFlairRaw {
@@ -32,11 +33,11 @@ export class RedditAPIService {
     /**
      * Reddit API Credentials 
      */
-    private readonly reddit: RedditCreds = new Reddit({
-        username: process.env.REDDIT_USERNAME,
-        password: process.env.PASSWORD,
-        appId: process.env.APP_ID,
-        appSecret: process.env.APP_SECRET,
+    private readonly reddit: Reddit = new Reddit({
+        username: process.env.REDDIT_USERNAME as string,
+        password: process.env.PASSWORD as string,
+        appId: process.env.APP_ID as string,
+        appSecret: process.env.APP_SECRET as string,
     });
 
     /**
@@ -45,7 +46,7 @@ export class RedditAPIService {
      * @returns a lite version of the about.JSON data
      */
     async getSubbredditAbout(subredditName: string): Promise<SubredditAbout> {
-        const aboutRaw = (await this.reddit.get(`/r/${subredditName}/about.json`))?.data as SubredditAboutRaw;
+        const aboutRaw = (await this.reddit.get<SubredditAboutRaw>(`/r/${subredditName}/about.json`)).data;
         return {
             url: aboutRaw.url,
             allowsVideoGifs: aboutRaw.allow_videogifs,
@@ -62,7 +63,7 @@ export class RedditAPIService {
      */
     async getFlairsBySubbreddit(subredditName: string): Promise<SubredditFlair[]> {
         try {
-            return (await this.reddit.get(`/r/${subredditName}/api/link_flair`) as SubredditFlairRaw[])
+            return (await this.reddit.get<SubredditFlairRaw[]>(`/r/${subredditName}/api/link_flair`))
                 .map((flairRaw): SubredditFlair => {
                     return {
                         name: flairRaw.text,
